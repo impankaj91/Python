@@ -1,0 +1,16 @@
+
+  <rule id="100300" level="10" frequency="5" timeframe="60"> <!-- Alert for multiple failed logins -->
+    <description>Multiple failed login attempts</description>
+    <group>authentication_failed</group>
+    <options>alert_by_email</options>
+    <email_to>youremail@example.com</email_to>
+    <alert_fields>srcip,dstuser,dstport</alert_fields>
+  </rule>
+  ---------
+  <rule id="100309" level="10" frequency="5" timeframe="60"> <!-- Alert for disconnected agent -->
+    <description>Agent disconnected</description>
+    <group>disconnected_agent</group>
+    <options>alert_by_email</options>
+    <email_to>youremail@example.com</email_to>
+    <alert_fields>srcip,srcname,srcport</alert_fields>
+  </rule>
