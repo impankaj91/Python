@@ -14,3 +14,11 @@
     <email_to>youremail@example.com</email_to>
     <alert_fields>srcip,srcname,srcport</alert_fields>
   </rule>
+  
+  -------------
+  
+<active-response>
+  <command>wazuh-alert</command>
+  <location>local</location>
+  <rules_id>550,553</rules_id>
+</active-response>
