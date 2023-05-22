@@ -1,0 +1,32 @@
+import requests
+import os
+
+upload_url = "https://graph.microsoft.com/v1.0/me/drive/root:/folder/file.txt:/createUploadSession"
+file_path = "/path/to/large_file.txt"
+chunk_size = 5 * 1024 * 1024  # 5 MB chunk size
+
+def upload_large_file_to_onedrive(url, file_path, chunk_size):
+    try:
+        file_size = os.path.getsize(file_path)
+        session_url = requests.post(url).json()["uploadUrl"]
+        with open(file_path, "rb") as file:
+            while True:
+                chunk = file.read(chunk_size)
+                if not chunk:
+                    break
+                headers = {
+                    "Content-Length": str(len(chunk)),
+                    "Content-Range": f"bytes {file.tell() - len(chunk)}-{file.tell() - 1}/{file_size}"
+                }
+                response = requests.put(session_url, headers=headers, data=chunk)
+                response.raise_for_status()
+                print("Chunk upload successful!")
+        print("File upload completed!")
+    except IOError as e:
+        print("File read error:", e)
+    except requests.exceptions.RequestException as e:
+        print("File upload failed:", e)
+        # Handle the error and retry or exit as needed
+
+# Example usage
+upload_large_file_to_onedrive(upload_url, file_path, chunk_size)
